@@ -1,0 +1,21 @@
+label {
+    width: 150px;
+    display: inline-block;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+thead{
+    background-color: aquamarine;
+}
+ th,tr, td {
+    border: 1px solid #000;
+    padding: 10px;
+}
+table{
+    border-spacing: 0px;
+}

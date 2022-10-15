@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+    <div class="container">
+        <h3 style="text-align: center;">QUAN LY SINH VIEN</h3>
+        <form action="/" method="POST" onsubmit="return checkValidate()" enctype="multipart/form-data" id="form-add">
+            <div class="form-group">
+                <label for="email">Ma sinh vien:</label>
+                <input name="ma" type="text" class="form-control" placeholder="Nhap ma sinh vien" id="inputma">
+                <label class="noti" id="ma"></label>
+            </div>
+            <div class="form-group">
+                <label for="pwd">Ngay sinh</label>
+                <input name="ngaysinh" type="date" class="form-control" placeholder="Nhap ngay sinh" id="inputngaysinh">
+                <label class="noti" id="ngaysinh"></label>
+            </div>
+            <div class="form-group">
+                <label for="pwd">Ho ten:</label>
+                <input name="ten" type="text" class="form-control" placeholder="Nhap ten sinh vien" id="inputten">
+                <label class="noti" id="ten"></label>
+            </div>
+          
+            <div class="form-group">
+                <label for="inputphone">Dien thoai:</label>
+                <input name="phone" type="text" class="form-control" placeholder="Nhap lop" id="inputphone">
+                <label class="noti" id="phone"></label>
+            </div>
+            <!-- <div class="form-group">
+                <label for="image">Hinh anh:</label>
+                <input name="image" type="file" class="form-control"  id="image">
+                <label class="noti" id="image_noti"></label>
+            </div> -->
+            
+            <button type="submit" class="btn btn-primary" >ADD</button>
+        </form>
+        <h2>Danh sach sinh vien</h2>
+        <form id="delete" method="POST" action="/delete" enctype="multipart/form-data">
+            <table class="table">
+                <thead class="">
+                    <tr>
+                        <th>STT</th>
+                        <th>Ma sinh vien</th>
+                        <th>Ngay sinh</th>
+                        <th>Ho ten</th>
+                        <th>Dien thoai</th>
+                        <!-- <th>hình ảnh</th> -->
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for(let i=0; i < listItem.length;i++){%>
+                        <tr>
+                            <td>
+                                <%=i+1%>
+                            </td>
+                            <td>
+                                <%=listItem[i].id%>
+                            </td>
+                            <td>
+                                <%=listItem[i].date_birth%>
+                            </td>
+                            <td>
+                                <%=listItem[i].name%>
+                            </td>
+                            
+                            <td>
+                                <%=listItem[i].phone%>
+                            </td>
+                            <!-- <td>
+                                <img src=" <%=listItem[i].image_url%>" alt="" style="width: 50px; height: 50px;">
+                            </td> -->
+                            
+                            <td><a href="/showEdit/<%=listItem[i].id%>">Edit</a></td>
+                            <td><input type="checkbox" name="<%=listItem[i].id%>" /></td> 
+                        </tr>
+                        <%} %>
+                </tbody>
+            </table>
+            <button style="float:right" type="submit" onclick="return confirmAction()" class="btn btn-danger">DELETE</button>
+        </form>
+
+    </div>
+    <script>
+        const checkNum = (num) => {
+            console.log(num);
+            if (isNaN(num) || num < 0) {
+                return false;
+                console.log("funtion false");
+            } else {
+                console.log("funtion true");
+                return true;
+            }
+        }
+        const checkRegex = (value, regex) => {
+            return regex.test(value);
+        }
+        const checkValidate = () => {
+            check = false;
+            if (document.getElementById("inputma").value == "") {
+                document.getElementById("ma").innerText = "Ma khong duoc rong"
+                return false;
+            } else {
+                document.getElementById("ma").innerText = ""
+                check = true;
+            }
+            if (document.getElementById("inputten").value == "") {
+                document.getElementById("ten").innerText = "Ten khong duoc rong"
+                return false;
+            } else {
+                document.getElementById("ten").innerText = ""
+                check = true;
+            }
+            if (document.getElementById("inputngaysinh").value == "") {
+                document.getElementById("ngaysinh").innerText = "Ngay sinh khong duoc rong"
+                return false;
+            } else {
+                document.getElementById("ngaysinh").innerText = ""
+                check = true;
+            }
+            if (document.getElementById("inputphone").value === "" || !checkNum(document.getElementById("inputphone").value)) {
+                document.getElementById("phone").innerText = "So dien thoai khong duoc rong va phai la so"
+                return false;
+            } else {
+                document.getElementById("phone").innerText = ""
+                check = true;
+            }
+            // if(!checkRegex(document.getElementById("inputlop").value,/[a-zA-Z]{3}-[0-9]{3}/)){
+            //     document.getElementById("chiso").innerText = "Chi so khong duoc rong"
+            //      return false;
+            // } else {
+            //     document.getElementById("chiso").innerText = ""
+            //     check = true;
+            // }
+            // if(!(checkNum(document.getElementById("inputsotrang").value) && document.getElementById("inputsotrang").value != "")){
+            //     document.getElementById("sotrang").innerText = "So trang khong duoc rong va la so nguyen duong"
+            //     console.log("false");
+            //     return false;
+            // } else{
+            //     document.getElementById("sotrang").innerText = ""
+            //     check = true;
+            //     console.log("true");
+            // }
+            // if(document.getElementById("inputnam").value ==""){
+            //     document.getElementById("nam").innerText = "Nam xuat ban khong duoc rong"
+            //     return false;
+            // } else{
+            //     document.getElementById("nam").innerText = ""
+            //     check = true;
+            // }
+            // if(!checkRegex(document.getElementById("input_lop").value,/DH(KTPM|KHMT)[0-9][A-Z]/)){
+            //     document.getElementById("lop").innerText = "Lop khong duoc rong co dang DHKTPM15A"
+            //     return false;
+            // } else{
+            //     document.getElementById("lop").innerText = ""
+            //     check = true;
+            // }
+            return check;
+        }
+        function confirmAction() {
+            return confirm("Xin chào bạn ! Bạn có muốn xóa không?")
+        };
+    </script>
+
+</body>
+</html>
